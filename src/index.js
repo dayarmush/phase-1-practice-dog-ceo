@@ -12,7 +12,7 @@ function renderImg(image) {
         imgContainer.appendChild(img)
 }
 
-// gets the dog breeds and appends them to the page
+// get the breeds and append them to the dom 
 fetch('https://dog.ceo/api/breeds/list/all')
 .then(resp => resp.json())
 .then(breedData => {
@@ -21,9 +21,22 @@ fetch('https://dog.ceo/api/breeds/list/all')
         const breedLi = document.createElement('li')
         breedUl.appendChild(breedLi)
         breedLi.textContent = breed;
+        breedLi.setAttribute('class', 'theBreeds')
     }
-    breedUl.addEventListener('click', e => {
-        e.target.style.color = 'red'
-        console.log(e.target)
+
+    // event listener to only display letters starting with the selected letter
+    const dropDown = document.querySelector('#breed-dropdown')
+    dropDown.addEventListener('change', e => {
+        const selectedLetter = e.target.value
+        const breedLis = document.querySelectorAll('.theBreeds')
+        
+        breedLis.forEach(breedLi => {
+            const breedText = breedLi.textContent
+            if (breedText.charAt(0) === selectedLetter) {
+                breedLi.style.display = 'block'
+            } else {
+                breedLi.style.display = 'none'
+            }
+        })
     })
 })
